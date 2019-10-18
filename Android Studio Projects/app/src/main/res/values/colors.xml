@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="GreenBB">#A6B8B2</color>
+    <color name="GreyBB">#4F5664</color>
+    <color name="WhiteBB">#FFFFFF</color>
+    <color name="LightGreyBB">#B6BBC7</color>
+
 </resources>
