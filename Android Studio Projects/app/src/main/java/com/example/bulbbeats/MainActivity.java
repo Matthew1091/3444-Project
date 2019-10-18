@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*Malena */
+        /*Malena    hi*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
