@@ -48,6 +48,7 @@
             android:textAllCaps="true"
             android:textSize="50sp"
             android:textStyle="bold"
+            android:id="@+id/connectBtn"
             android:gravity="right"
             android:paddingRight="30dp"
             android:background="@color/GreyBB"/>
