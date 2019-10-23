@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/newProject"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="248dp"
         android:layout_height="wrap_content"

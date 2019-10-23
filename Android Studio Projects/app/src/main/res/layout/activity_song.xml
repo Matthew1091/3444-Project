@@ -38,15 +38,21 @@
         android:layout_below="@+id/topSLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp">
-        <Spinner
 
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:id="@+id/songSpinner"
-            android:background="@color/GreenBB"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            />
+        <Button
+            android:id="@+id/openDoc"
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/filepath"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="#525252"
+            android:textStyle="bold" />
 
     </RelativeLayout>
     <RelativeLayout
@@ -58,6 +64,7 @@
         android:id="@+id/bottomSLayout">
 
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
