@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button button;
+     Button newProject;
+    private ProjectSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,20 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById((R.id.button));
-        button.setOnClickListener(new View.OnClickListener() {
+        newProject = findViewById((R.id.newProject));
+        newProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivity2();
+                openSongActivity();
             }
         });
+    }
+
+    private void openSongActivity() {
+        Intent intent = new Intent(this, SongActivity.class);
+        startActivity(intent);
     }
 
     private void openActivity2() {
         Intent intent = new Intent(this, Main2Activity.class);
         startActivity(intent);
-
-
-
     }
 }
