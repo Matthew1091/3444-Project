@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button newProjectbtn;
-    private ProjectSettings settings;
+    //private ProjectSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initMainWidgits(){
         newProjectbtn = (Button) findViewById((R.id.button));
-        newProject = findViewById((R.id.newProject));
+        //newProject = findViewById((R.id.newProject));
     }
 
     private void setOnClickListeners(){
-        newProject.setOnClickListener(new View.OnClickListener() {
+       /* newProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openSongActivity();
             }
-        });
+        });*/
         newProjectbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {  //will start from mainactivity to connectbulbactivity class
