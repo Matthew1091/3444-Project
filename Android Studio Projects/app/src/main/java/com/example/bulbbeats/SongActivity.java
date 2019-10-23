@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+
+
 public class SongActivity extends AppCompatActivity {
     private static final int OPEN_DOC = 10;
 
@@ -20,26 +23,41 @@ public class SongActivity extends AppCompatActivity {
     Button openDoc;
     private ProjectSettings settings;
 
+    private Button Uploadbtn;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
-        settings = null;
+        initSongWidgits();
+        setSongOnClickListeners();
 
+    }
+    private void initSongWidgits(){
+        Uploadbtn = (Button) findViewById(R.id.uploadBtn);
         openDoc = findViewById((R.id.openDoc));
+        button = findViewById((R.id.button));
+    }
+
+    private void setSongOnClickListeners(){
         openDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDocument();
             }
         });
-
-        button = findViewById((R.id.button));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadDoc();
+            }
+        });
+        Uploadbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { //will start from songactivity to themeactivity class
+                Intent sintent = new Intent(SongActivity.this, ThemeActivity.class);
+                startActivity(sintent); //will trigger the intent
             }
         });
     }
@@ -51,9 +69,9 @@ public class SongActivity extends AppCompatActivity {
     }
 
     public void uploadDoc() {
-            Intent intent = new Intent(this, LaunchActivity.class);
-            intent.putExtra("openDoc", settings);
-            startActivity(intent);
+        Intent intent = new Intent(this, LaunchActivity.class);
+        intent.putExtra("openDoc", settings);
+        startActivity(intent);
     }
 
     @Override
