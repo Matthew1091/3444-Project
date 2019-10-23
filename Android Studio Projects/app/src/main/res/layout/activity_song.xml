@@ -60,6 +60,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/WhiteBB"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/openDoc"
+            android:text="open doc"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openDoc"
             android:padding="15dp"
             android:id="@+id/uploadBtn"
             android:background="@drawable/green_button_border"
@@ -68,6 +78,7 @@
             android:textColor="@color/WhiteBB"
             android:textSize="25sp"
             android:layout_centerHorizontal="true"/>
+
     </RelativeLayout>
 
 

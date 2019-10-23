@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openSongActivity() {
-        Intent intent = new Intent(this, SongActivity.class);
-        startActivity(intent);
+       // Intent intent = new Intent(this, SongActivity.class);
+        //startActivity(intent);
     }
     /*private void openActivity2() {
         Intent intent = new Intent(this, Main2Activity.class);

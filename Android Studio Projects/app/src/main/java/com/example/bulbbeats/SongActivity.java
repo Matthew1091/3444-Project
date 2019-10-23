@@ -11,22 +11,25 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 
 public class SongActivity extends AppCompatActivity {
+
     private static final int OPEN_DOC = 10;
 
-    Button button;
-    Button openDoc;
+    private Button button;
+    private Button openDoc;
     private ProjectSettings settings;
 
     private Button Uploadbtn;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(SongActivity.this,"got here", Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
