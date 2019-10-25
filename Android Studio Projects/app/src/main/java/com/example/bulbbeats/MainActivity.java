@@ -18,16 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
         initMainWidgits();
         setOnClickListeners();
-      /* button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity2();
-            }
-        });*/
     }
 
     private void initMainWidgits(){
-        newProjectbtn = (Button) findViewById((R.id.button));
+        newProjectbtn = findViewById((R.id.button));
     }
 
     private void setOnClickListeners(){
@@ -39,9 +33,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    /*private void openActivity2() {
-        Intent intent = new Intent(this, Main2Activity.class);
-        startActivity(intent);
-
-    }*/
 }

@@ -9,11 +9,14 @@ import android.widget.Button;
 
 public class ThemeActivity extends AppCompatActivity {
     private Button selThemebtn;
+    private ProjectSettings projset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme);
+
+        projset = getIntent().getParcelableExtra("settings");
 
         initThemeWidgits();
         setThemeOnclickListener();
@@ -28,6 +31,7 @@ public class ThemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {  //will start from themectivity to launchactivity class
                 Intent sintent = new Intent(ThemeActivity.this, LaunchActivity.class);
+                sintent.putExtra("settings", projset);
                 startActivity(sintent); //will trigger the intent
             }
         });
