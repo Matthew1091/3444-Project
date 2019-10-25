@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -57,6 +58,10 @@ public class LaunchActivity extends AppCompatActivity {
         }
 
         mPlayer.start();
+
+        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
+
+        playButton.setBackground(resImg);
     }
 
     public  void pause(View v)
