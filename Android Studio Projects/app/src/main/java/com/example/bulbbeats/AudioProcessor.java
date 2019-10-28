@@ -1,14 +1,23 @@
 package com.example.bulbbeats;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 
-public class AudioProcessor {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+public class AudioProcessor extends LaunchActivity {
     private byte bytes[];
     private Visualizer mVisualizer;
     private MediaPlayer mPlayer;
-
+    private int PERMISSION_CODE = 1;
     //constructor
     public AudioProcessor(ProjectSettings projSet, Context context)
     {

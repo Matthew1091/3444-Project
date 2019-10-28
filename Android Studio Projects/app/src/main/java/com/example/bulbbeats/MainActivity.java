@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         initMainWidgits();
         setOnClickListeners();
+
     }
 
     private void initMainWidgits(){

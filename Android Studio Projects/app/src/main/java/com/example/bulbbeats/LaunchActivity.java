@@ -1,9 +1,14 @@
 package com.example.bulbbeats;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -28,7 +33,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-
+        checkPermissions();
         context = getApplicationContext();
 
         //this may be redundant but it's just to make sure it is not used before it is created.
@@ -61,6 +66,18 @@ public class LaunchActivity extends AppCompatActivity {
     /*
         play creates a media player and an audio processor. Also changes the icon image.
      */
+    private void checkPermissions(){
+        //Need to get permissions from the user.
+        //Checks if permission is granted
+        int PERMISSION_CODE = 1;
+        //TODO: add something to handle denied permission request
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            //Permission not granted. Need to ask for it
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO},1);
+        }
+    }
+
     public  void play(View v)
     {
         audProc = new AudioProcessor(projSet, context);
