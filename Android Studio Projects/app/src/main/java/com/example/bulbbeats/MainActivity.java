@@ -1,8 +1,11 @@
 package com.example.bulbbeats;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +18,22 @@ public class MainActivity extends AppCompatActivity {
         /*Malena    hi*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkPermissions();
         initMainWidgits();
         setOnClickListeners();
 
     }
-
+    private void checkPermissions(){
+        //Need to get permissions from the user.
+        //Checks if permission is granted
+        int PERMISSION_CODE = 1;
+        //TODO: add something to handle denied permission request
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            //Permission not granted. Need to ask for it
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO},1);
+        }
+    }
     private void initMainWidgits(){
         newProjectbtn = findViewById((R.id.button));
     }
