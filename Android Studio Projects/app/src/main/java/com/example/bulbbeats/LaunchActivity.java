@@ -2,6 +2,7 @@ package com.example.bulbbeats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 public class LaunchActivity extends AppCompatActivity {
 
+    private static Context context;
     private ProjectSettings projSet;
     private AudioProcessor audProc;
     private Button playButton;
@@ -26,6 +28,8 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
+        context = getApplicationContext();
 
         //this may be redundant but it's just to make sure it is not used before it is created.
         mPlayer = null;
@@ -59,19 +63,8 @@ public class LaunchActivity extends AppCompatActivity {
      */
     public  void play(View v)
     {
-        if(mPlayer == null) {
-            mPlayer = MediaPlayer.create(this, projSet.songUri);
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    stopPlayer();
-                    audProc.release();
-                }
-            });
-            audProc = new AudioProcessor(mPlayer.getAudioSessionId());
-        }
-
-        mPlayer.start();
+        audProc = new AudioProcessor(projSet, context);
+        audProc.start();
 
         //make pause button icon drawable
         Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
@@ -81,33 +74,23 @@ public class LaunchActivity extends AppCompatActivity {
 
     public  void pause(View v)
     {
-        if(mPlayer != null) {
-            mPlayer.pause();
-            audProc.release();
-        }
+        audProc.release();
     }
 
     public void stop(View v)
     {
-        stopPlayer();
+        audProc.stopPlayer();
     }
 
     /*
     stopPlayer calls release but also frees system resources.
      */
-    public  void stopPlayer()
-    {
-        if(mPlayer != null) {
-            mPlayer.release();
-            mPlayer = null;
-            audProc.release();
-        }
-    }
+
 
     @Override
     protected void onStop() {
         super.onStop();
-        stopPlayer();
+        audProc.stopPlayer();
     }
 
     private void setSongOnClickListeners(){
