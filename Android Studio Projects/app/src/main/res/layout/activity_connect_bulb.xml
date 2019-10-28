@@ -30,7 +30,7 @@
             android:textSize="30sp"
             android:textAlignment="center"
             android:layout_centerHorizontal="true"
-            android:id="@+id/ConnectToABulb_Text"/>
+            android:id="@+id/songTitle"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
