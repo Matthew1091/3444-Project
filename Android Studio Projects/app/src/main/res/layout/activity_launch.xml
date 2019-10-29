@@ -36,41 +36,39 @@
             android:textSize="30sp"
             android:textAlignment="center"
             android:layout_centerHorizontal="true"
-            android:id="@+id/ConnectToABulb_Text"/>
+            android:id="@+id/songTitle"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topLLayout"
         android:id="@+id/bottomLLayout"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:layout_below="@+id/topLLayout"
         android:layout_marginTop="20dp">
 
-        <ImageButton
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:id="@+id/playBtn"
-            android:src="@drawable/ic_play"
-            android:background="@android:color/transparent"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"/>
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_pause"
-            android:layout_toRightOf="@+id/playBtn"
-            android:layout_marginRight="20dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"/>
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_stop"
-            android:layout_marginLeft="20dp"
-            android:layout_toLeftOf="@+id/playBtn"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"/>
+        <Button
+            android:id="@+id/playButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="98dp"
+            android:layout_height="87dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="147dp"
+            android:layout_toStartOf="@+id/stopButton"
+            android:background="@drawable/ic_play" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/stopButton"
+            android:layout_width="98dp"
+            android:layout_height="87dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="29dp"
+            android:background="@drawable/ic_stop" />
+
 
     </RelativeLayout>
 

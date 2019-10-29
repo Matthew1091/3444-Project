@@ -1,44 +1,44 @@
 package com.example.bulbbeats;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button newProjectbtn;
-    //private ProjectSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*Malena    hi*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkPermissions();
         initMainWidgits();
         setOnClickListeners();
-      /* button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity2();
-            }
-        });*/
-    }
 
+    }
+    private void checkPermissions(){
+        //Need to get permissions from the user.
+        //Checks if permission is granted
+        int PERMISSION_CODE = 1;
+        //TODO: add something to handle denied permission request
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            //Permission not granted. Need to ask for it
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO},1);
+        }
+    }
     private void initMainWidgits(){
-        newProjectbtn = (Button) findViewById((R.id.button));
-        //newProject = findViewById((R.id.newProject));
+        newProjectbtn = findViewById((R.id.button));
     }
 
     private void setOnClickListeners(){
-       /* newProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSongActivity();
-            }
-        });*/
         newProjectbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {  //will start from mainactivity to connectbulbactivity class
@@ -47,14 +47,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void openSongActivity() {
-       // Intent intent = new Intent(this, SongActivity.class);
-        //startActivity(intent);
-    }
-    /*private void openActivity2() {
-        Intent intent = new Intent(this, Main2Activity.class);
-        startActivity(intent);
-
-    }*/
 }
