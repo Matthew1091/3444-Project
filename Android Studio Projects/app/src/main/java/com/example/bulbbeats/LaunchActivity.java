@@ -25,6 +25,7 @@ public class LaunchActivity extends AppCompatActivity {
     private ProjectSettings projSet;
     private AudioProcessor audProc;
     private Button playButton;
+    private Button stopButton;
     private MediaPlayer mPlayer;
     private TextView songTitle;
     private String temp;
@@ -38,7 +39,7 @@ public class LaunchActivity extends AppCompatActivity {
 
         //this may be redundant but it's just to make sure it is not used before it is created.
         mPlayer = null;
-
+        audProc=null;
         //constructs the textview.
         songTitle = (TextView)findViewById(R.id.songTitle);
 
@@ -59,6 +60,7 @@ public class LaunchActivity extends AppCompatActivity {
         songTitle.setText(returnCursor.getString(nameIndex));
 
         playButton = findViewById(R.id.playButton);
+        stopButton = findViewById(R.id.stopButton);
 
         setSongOnClickListeners();
     }
@@ -69,7 +71,9 @@ public class LaunchActivity extends AppCompatActivity {
 
     public  void play(View v)
     {
-        audProc = new AudioProcessor(projSet, context);
+        if(audProc==null) {
+            audProc = new AudioProcessor(projSet, context);
+        }
         audProc.start();
 
         //make pause button icon drawable
@@ -81,11 +85,18 @@ public class LaunchActivity extends AppCompatActivity {
     public  void pause(View v)
     {
         audProc.release();
+        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
+
+        playButton.setBackground(resImg);
     }
 
     public void stop(View v)
     {
+        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
+
+        playButton.setBackground(resImg);
         audProc.stopPlayer();
+        audProc = null;
     }
 
     /*
@@ -97,16 +108,37 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         audProc.stopPlayer();
+
     }
 
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) { //will start from songactivity to themeactivity class
-                play(v);
+                    playPauseHandler(v);
+            }
+        });
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stop(v);
             }
         });
     }
 
+    private void playPauseHandler(View v){
+        if(audProc == null){
+            System.out.println("Audproc is null");
+        }
+        if(audProc == null) {
+            play(v);
+        }
+        else if(audProc.isPlaying()){
+            pause(v);
+        }
+        else{
+            play(v);
+        }
+    }
 
 }

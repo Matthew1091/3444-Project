@@ -63,7 +63,9 @@ public class AudioProcessor extends LaunchActivity {
         }
         mVisualizer.release();
     }
-
+    public Boolean isPlaying(){
+        return mPlayer.isPlaying();
+    }
     public void start()
     {
         mPlayer.start();
