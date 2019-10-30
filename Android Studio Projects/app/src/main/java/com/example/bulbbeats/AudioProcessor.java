@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class AudioProcessor extends LaunchActivity {
+public class AudioProcessor {
     private byte bytes[];
     private Visualizer mVisualizer;
     private int PERMISSION_CODE = 1;
@@ -57,6 +57,7 @@ public class AudioProcessor extends LaunchActivity {
     {
         mVisualizer.setEnabled(true);
     }
+    public Boolean isNull(){return mPlayer == null;}
 
     public void disable()
     {

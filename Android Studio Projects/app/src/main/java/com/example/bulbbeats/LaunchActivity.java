@@ -35,7 +35,6 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        // checkPermissions();
         context = getApplicationContext();
 
         //this may be redundant but it's just to make sure it is not used before it is created.
@@ -77,8 +76,7 @@ public class LaunchActivity extends AppCompatActivity {
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    stopPlayer();
-                    release();
+                    stopPlayer(v);
                 }
             });
         }
@@ -88,9 +86,7 @@ public class LaunchActivity extends AppCompatActivity {
         start();
 
         //make pause button icon drawable
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
-
-        playButton.setBackground(resImg);
+        changePausePlayButton(0);
     }
 
     public  void pause(View v)
@@ -98,6 +94,7 @@ public class LaunchActivity extends AppCompatActivity {
         release();
         Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
         playButton.setBackground(resImg);
+        changePausePlayButton(1);
     }
 
     public void stop(View v)
@@ -107,6 +104,7 @@ public class LaunchActivity extends AppCompatActivity {
         playButton.setBackground(resImg);
         stopPlayer();
         audProc = null;
+        changePausePlayButton(1);
     }
 
     /*
@@ -158,11 +156,26 @@ public class LaunchActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        changePausePlayButton(0);
         super.onStop();
         if(isPlaying())
             pause(findViewById(android.R.id.content));
     }
+    protected void changePausePlayButton(int isPlay){
+        //Int isPlay is 1 if it needs to be the play button or 0 if it needs to be the pause
 
+        if(isPlay==1){
+            Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
+
+            playButton.setBackground(resImg);
+        }
+        else{
+            Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
+
+            playButton.setBackground(resImg);
+        }
+
+    }
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,16 +186,20 @@ public class LaunchActivity extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stop(v);
+                stopHandler(v);
             }
         });
     }
-
-    private void playPauseHandler(View v){
-        if(audProc == null){
-            System.out.println("Audproc is null");
+    private void stopHandler(View v){
+        changePausePlayButton(1);
+        if(audProc!=null){
+            if(!audProc.isNull()) {
+                stop(v);
+            }
         }
-        if(audProc == null) {
+    }
+    private void playPauseHandler(View v){
+        if(audProc == null || !audProc.isPlaying()) {
             play(v);
         }
         else if(isPlaying()){
