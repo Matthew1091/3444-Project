@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class AudioProcessor extends LaunchActivity {
+public class AudioProcessor {
     private byte bytes[];
     private Visualizer mVisualizer;
     private MediaPlayer mPlayer;
@@ -23,13 +23,13 @@ public class AudioProcessor extends LaunchActivity {
     {
         if(mPlayer == null) {
             mPlayer = MediaPlayer.create(context, projSet.songUri);
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+           /* mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     stopPlayer();
                     release();
                 }
-            });
+            });*/
         }
 
         int id = mPlayer.getAudioSessionId();
@@ -70,6 +70,7 @@ public class AudioProcessor extends LaunchActivity {
     {
         mPlayer.start();
     }
+    public Boolean isNull(){return mPlayer == null;}
 
     public  void stopPlayer()
     {
@@ -78,5 +79,8 @@ public class AudioProcessor extends LaunchActivity {
             mPlayer = null;
             release();
         }
+    }
+    public MediaPlayer getPlayer(){
+        return mPlayer;
     }
 }
