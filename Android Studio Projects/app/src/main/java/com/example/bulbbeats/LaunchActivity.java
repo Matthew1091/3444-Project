@@ -16,6 +16,7 @@ import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-      //  checkPermissions();
+        // checkPermissions();
         context = getApplicationContext();
 
         //this may be redundant but it's just to make sure it is not used before it is created.
@@ -71,10 +72,20 @@ public class LaunchActivity extends AppCompatActivity {
 
     public  void play(View v)
     {
-        if(audProc==null) {
-            audProc = new AudioProcessor(projSet, context);
+        if(mPlayer == null) {
+            mPlayer = MediaPlayer.create(context, projSet.songUri);
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    stopPlayer();
+                    release();
+                }
+            });
         }
-        audProc.start();
+        if(audProc==null) {
+            audProc = new AudioProcessor(mPlayer, context);
+        }
+        start();
 
         //make pause button icon drawable
         Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
@@ -84,9 +95,8 @@ public class LaunchActivity extends AppCompatActivity {
 
     public  void pause(View v)
     {
-        audProc.release();
+        release();
         Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
-
         playButton.setBackground(resImg);
     }
 
@@ -95,26 +105,68 @@ public class LaunchActivity extends AppCompatActivity {
         Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
 
         playButton.setBackground(resImg);
-        audProc.stopPlayer();
+        stopPlayer();
         audProc = null;
     }
 
     /*
     stopPlayer calls release but also frees system resources.
      */
+    public void release()
+    {
+        if(mPlayer != null) {
+            mPlayer.pause();
+        }
+        if(audProc!= null) {
+            audProc.release();
+            audProc = null;
+        }
+    }
+    public Boolean isPlaying(){
+        return mPlayer.isPlaying();
+    }
+    public void start()
+    {
+        mPlayer.start();
+        audProc.enable();
+    }
 
+    public  void stopPlayer()
+    {
+        if(mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+            release();
+        }
+        if(audProc != null)
+        {
+            audProc.disable();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pause(findViewById(android.R.id.content));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playPauseHandler(findViewById(android.R.id.content));
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audProc.stopPlayer();
-
+        if(isPlaying())
+            pause(findViewById(android.R.id.content));
     }
 
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { //will start from songactivity to themeactivity class
+                public void onClick(View v) {
                     playPauseHandler(v);
             }
         });
@@ -133,7 +185,7 @@ public class LaunchActivity extends AppCompatActivity {
         if(audProc == null) {
             play(v);
         }
-        else if(audProc.isPlaying()){
+        else if(isPlaying()){
             pause(v);
         }
         else{

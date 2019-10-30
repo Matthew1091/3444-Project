@@ -16,22 +16,10 @@ import androidx.core.content.ContextCompat;
 public class AudioProcessor extends LaunchActivity {
     private byte bytes[];
     private Visualizer mVisualizer;
-    private MediaPlayer mPlayer;
     private int PERMISSION_CODE = 1;
     //constructor
-    public AudioProcessor(ProjectSettings projSet, Context context)
+    public AudioProcessor(MediaPlayer mPlayer, Context context)
     {
-        if(mPlayer == null) {
-            mPlayer = MediaPlayer.create(context, projSet.songUri);
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    stopPlayer();
-                    release();
-                }
-            });
-        }
-
         int id = mPlayer.getAudioSessionId();
 
         mVisualizer = new Visualizer(id);
@@ -47,8 +35,17 @@ public class AudioProcessor extends LaunchActivity {
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
                 bytes = fft;
+                System.out.println("Audproc is capturing");
             }
         };
+
+        mVisualizer.setDataCaptureListener(captureListener,
+                Visualizer.getMaxCaptureRate() / 2, false, true);
+    }
+
+    public void release()
+    {
+        mVisualizer.release();
     }
 
     public byte[] getBytesFFT()
@@ -56,27 +53,15 @@ public class AudioProcessor extends LaunchActivity {
         return bytes;
     }
 
-    public void release()
+    public void enable()
     {
-        if(mPlayer != null) {
-            mPlayer.pause();
-        }
-        mVisualizer.release();
-    }
-    public Boolean isPlaying(){
-        return mPlayer.isPlaying();
-    }
-    public void start()
-    {
-        mPlayer.start();
+        mVisualizer.setEnabled(true);
     }
 
-    public  void stopPlayer()
+    public void disable()
     {
-        if(mPlayer != null) {
-            mPlayer.release();
-            mPlayer = null;
-            release();
-        }
+        mVisualizer.setEnabled(false);
     }
+
+
 }
