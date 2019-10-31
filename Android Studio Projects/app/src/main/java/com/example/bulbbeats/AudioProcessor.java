@@ -1,28 +1,23 @@
 package com.example.bulbbeats;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import java.util.Date;
 
-public class AudioProcessor {
+public class AudioProcessor{
     private byte bytes[];
     private Visualizer mVisualizer;
     private int PERMISSION_CODE = 1;
+
+    Date date1 = new Date();
+    Date date2 = null;
+
     //constructor
     public AudioProcessor(MediaPlayer mPlayer, Context context)
     {
-        int id = mPlayer.getAudioSessionId();
-
-        mVisualizer = new Visualizer(id);
+        mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 
@@ -34,13 +29,19 @@ public class AudioProcessor {
 
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-                bytes = fft;
-                System.out.println("Audproc is capturing");
+                updateFFT(fft);
+                System.out.println("audProc is capturing");
             }
         };
 
+        //this sets up the listener but does not actually enable the visualizer. That happens back in launch.
         mVisualizer.setDataCaptureListener(captureListener,
                 Visualizer.getMaxCaptureRate() / 2, false, true);
+    }
+
+    public void updateFFT(byte[] fft)
+    {
+        bytes = fft;
     }
 
     public void release()
@@ -57,7 +58,6 @@ public class AudioProcessor {
     {
         mVisualizer.setEnabled(true);
     }
-    public Boolean isNull(){return mPlayer == null;}
 
     public void disable()
     {

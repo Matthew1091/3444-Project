@@ -76,7 +76,7 @@ public class LaunchActivity extends AppCompatActivity {
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    stopPlayer(v);
+                    stop();
                 }
             });
         }
@@ -92,43 +92,36 @@ public class LaunchActivity extends AppCompatActivity {
     public  void pause(View v)
     {
         release();
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
-        playButton.setBackground(resImg);
         changePausePlayButton(1);
     }
 
-    public void stop(View v)
+    public void stop()
     {
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
-
-        playButton.setBackground(resImg);
         stopPlayer();
         audProc = null;
         changePausePlayButton(1);
     }
 
-    /*
-    stopPlayer calls release but also frees system resources.
-     */
     public void release()
     {
         if(mPlayer != null) {
             mPlayer.pause();
         }
-        if(audProc!= null) {
+        if(audProc != null) {
             audProc.release();
             audProc = null;
         }
     }
-    public Boolean isPlaying(){
-        return mPlayer.isPlaying();
-    }
+
     public void start()
     {
         mPlayer.start();
-        audProc.enable();
+        audProc.enable(); //actually enables the visualizer to start capturing data.
     }
 
+    /*
+    stopPlayer calls release but also frees system resources.
+     */
     public  void stopPlayer()
     {
         if(mPlayer != null) {
@@ -151,15 +144,13 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        playPauseHandler(findViewById(android.R.id.content));
+        play(findViewById(android.R.id.content));
     }
 
     @Override
     protected void onStop() {
-        changePausePlayButton(0);
         super.onStop();
-        if(isPlaying())
-            pause(findViewById(android.R.id.content));
+        pause(findViewById(android.R.id.content));
     }
     protected void changePausePlayButton(int isPlay){
         //Int isPlay is 1 if it needs to be the play button or 0 if it needs to be the pause
@@ -192,17 +183,14 @@ public class LaunchActivity extends AppCompatActivity {
     }
     private void stopHandler(View v){
         changePausePlayButton(1);
-        if(audProc!=null){
-            if(!audProc.isNull()) {
-                stop(v);
-            }
-        }
+        stop();
+
     }
     private void playPauseHandler(View v){
-        if(audProc == null || !audProc.isPlaying()) {
+        if(audProc == null || !mPlayer.isPlaying()) {
             play(v);
         }
-        else if(isPlaying()){
+        else if(mPlayer.isPlaying()){
             pause(v);
         }
         else{
