@@ -61,8 +61,9 @@ public class LaunchActivity extends AppCompatActivity {
 
         playButton = findViewById(R.id.playButton);
         stopButton = findViewById(R.id.stopButton);
-
         setSongOnClickListeners();
+        //Control back button press
+
     }
 
     /*
@@ -76,6 +77,7 @@ public class LaunchActivity extends AppCompatActivity {
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    System.out.println("Stahp");
                     stop();
                 }
             });
@@ -144,7 +146,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        play(findViewById(android.R.id.content));
+        pause(findViewById(android.R.id.content));
     }
 
     @Override
@@ -166,6 +168,13 @@ public class LaunchActivity extends AppCompatActivity {
             playButton.setBackground(resImg);
         }
 
+    }
+    //Overrides back button press to send it to the main page
+    @Override
+    public void onBackPressed(){
+        onPause();
+        Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
+        startActivity(intent); //will trigger the intent
     }
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
