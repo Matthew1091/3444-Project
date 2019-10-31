@@ -3,6 +3,7 @@ package com.example.bulbbeats;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -30,7 +31,6 @@ public class AudioProcessor{
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
                 updateFFT(fft);
-                System.out.println("audProc is capturing");
             }
         };
 
@@ -41,7 +41,12 @@ public class AudioProcessor{
 
     public void updateFFT(byte[] fft)
     {
+        date2 = new Date();
         bytes = fft;
+        long capture = date2.getTime() - date1.getTime();
+        Log.d("Updating FFT", String.valueOf(capture) + " milliseconds");
+        date1 = null;
+        date1 = new Date();
     }
 
     public void release()
