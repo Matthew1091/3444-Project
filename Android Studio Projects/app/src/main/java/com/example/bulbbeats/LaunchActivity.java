@@ -16,6 +16,7 @@ import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,7 +35,6 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-      //  checkPermissions();
         context = getApplicationContext();
 
         //this may be redundant but it's just to make sure it is not used before it is created.
@@ -61,8 +61,9 @@ public class LaunchActivity extends AppCompatActivity {
 
         playButton = findViewById(R.id.playButton);
         stopButton = findViewById(R.id.stopButton);
-
         setSongOnClickListeners();
+        //Control back button press
+
     }
 
     /*
@@ -71,69 +72,134 @@ public class LaunchActivity extends AppCompatActivity {
 
     public  void play(View v)
     {
-        if(audProc==null) {
-            audProc = new AudioProcessor(projSet, context);
+        if(mPlayer == null) {
+            mPlayer = MediaPlayer.create(context, projSet.songUri);
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    System.out.println("Stahp");
+                    stop();
+                }
+            });
         }
-        audProc.start();
+        if(audProc==null) {
+            audProc = new AudioProcessor(mPlayer, context);
+        }
+        start();
 
         //make pause button icon drawable
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
-
-        playButton.setBackground(resImg);
+        changePausePlayButton(0);
     }
 
     public  void pause(View v)
     {
-        audProc.release();
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
-
-        playButton.setBackground(resImg);
+        release();
+        changePausePlayButton(1);
     }
 
-    public void stop(View v)
+    public void stop()
     {
-        Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
-
-        playButton.setBackground(resImg);
-        audProc.stopPlayer();
+        stopPlayer();
         audProc = null;
+        changePausePlayButton(1);
+    }
+
+    public void release()
+    {
+        if(mPlayer != null) {
+            mPlayer.pause();
+        }
+        if(audProc != null) {
+            audProc.release();
+            audProc = null;
+        }
+    }
+
+    public void start()
+    {
+        mPlayer.start();
+        audProc.enable(); //actually enables the visualizer to start capturing data.
     }
 
     /*
     stopPlayer calls release but also frees system resources.
      */
+    public  void stopPlayer()
+    {
+        if(mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+            release();
+        }
+        if(audProc != null)
+        {
+            audProc.disable();
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pause(findViewById(android.R.id.content));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pause(findViewById(android.R.id.content));
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audProc.stopPlayer();
+        pause(findViewById(android.R.id.content));
+    }
+    protected void changePausePlayButton(int isPlay){
+        //Int isPlay is 1 if it needs to be the play button or 0 if it needs to be the pause
+
+        if(isPlay==1){
+            Drawable resImg = this.getResources().getDrawable(R.drawable.ic_play);
+
+            playButton.setBackground(resImg);
+        }
+        else{
+            Drawable resImg = this.getResources().getDrawable(R.drawable.ic_pause);
+
+            playButton.setBackground(resImg);
+        }
 
     }
-
+    //Overrides back button press to send it to the main page
+    @Override
+    public void onBackPressed(){
+        onPause();
+        Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
+        startActivity(intent); //will trigger the intent
+    }
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { //will start from songactivity to themeactivity class
+                public void onClick(View v) {
                     playPauseHandler(v);
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stop(v);
+                stopHandler(v);
             }
         });
     }
+    private void stopHandler(View v){
+        changePausePlayButton(1);
+        stop();
 
+    }
     private void playPauseHandler(View v){
-        if(audProc == null){
-            System.out.println("Audproc is null");
-        }
-        if(audProc == null) {
+        if(audProc == null || !mPlayer.isPlaying()) {
             play(v);
         }
-        else if(audProc.isPlaying()){
+        else if(mPlayer.isPlaying()){
             pause(v);
         }
         else{

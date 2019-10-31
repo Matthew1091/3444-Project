@@ -1,40 +1,24 @@
 package com.example.bulbbeats;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import java.util.Date;
 
-public class AudioProcessor extends LaunchActivity {
+public class AudioProcessor{
     private byte bytes[];
     private Visualizer mVisualizer;
-    private MediaPlayer mPlayer;
     private int PERMISSION_CODE = 1;
+
+    Date date1 = new Date();
+    Date date2 = null;
+
     //constructor
-    public AudioProcessor(ProjectSettings projSet, Context context)
+    public AudioProcessor(MediaPlayer mPlayer, Context context)
     {
-        if(mPlayer == null) {
-            mPlayer = MediaPlayer.create(context, projSet.songUri);
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    stopPlayer();
-                    release();
-                }
-            });
-        }
-
-        int id = mPlayer.getAudioSessionId();
-
-        mVisualizer = new Visualizer(id);
+        mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 
@@ -46,9 +30,28 @@ public class AudioProcessor extends LaunchActivity {
 
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-                bytes = fft;
+                updateFFT(fft);
             }
         };
+
+        //this sets up the listener but does not actually enable the visualizer. That happens back in launch.
+        mVisualizer.setDataCaptureListener(captureListener,
+                Visualizer.getMaxCaptureRate() / 2, false, true);
+    }
+
+    public void updateFFT(byte[] fft)
+    {
+        date2 = new Date();
+        bytes = fft;
+        long capture = date2.getTime() - date1.getTime();
+        Log.d("Updating FFT", String.valueOf(capture) + " milliseconds");
+        date1 = null;
+        date1 = new Date();
+    }
+
+    public void release()
+    {
+        mVisualizer.release();
     }
 
     public byte[] getBytesFFT()
@@ -56,27 +59,15 @@ public class AudioProcessor extends LaunchActivity {
         return bytes;
     }
 
-    public void release()
+    public void enable()
     {
-        if(mPlayer != null) {
-            mPlayer.pause();
-        }
-        mVisualizer.release();
-    }
-    public Boolean isPlaying(){
-        return mPlayer.isPlaying();
-    }
-    public void start()
-    {
-        mPlayer.start();
+        mVisualizer.setEnabled(true);
     }
 
-    public  void stopPlayer()
+    public void disable()
     {
-        if(mPlayer != null) {
-            mPlayer.release();
-            mPlayer = null;
-            release();
-        }
+        mVisualizer.setEnabled(false);
     }
+
+
 }
