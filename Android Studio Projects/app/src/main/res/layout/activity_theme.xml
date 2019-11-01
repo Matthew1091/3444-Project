@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/GreyBB"
     tools:context=".ThemeActivity"
-    android:background="@color/GreyBB">
+    android:padding="15dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select a theme"
+            android:text="Theme Setup"
             android:layout_below="@+id/selectThemeImage"
             android:layout_marginTop="40dp"
             android:textColor="@color/WhiteBB"
@@ -38,36 +39,37 @@
         android:layout_below="@+id/topTLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp">
-        <Spinner
 
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:id="@+id/themeSpinner"
-            android:background="@color/GreenBB"
-            android:layout_marginTop="10dp"
+        <Spinner
+            android:id="@+id/themespinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginRight="5dp"/>
+
 
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/middleTLayout"
-        android:layout_marginTop="20dp"
-
+        android:layout_marginTop="50dp"
         android:id="@+id/bottomTLayout">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/themeBtn"
-            android:padding="15dp"
-            android:background="@drawable/green_button_border"
-            android:text="Select Theme"
-            android:textStyle="bold"
+            android:text="Build Project"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/WhiteBB"
+            android:textAllCaps="true"
             android:textSize="25sp"
-            android:layout_centerHorizontal="true"/>
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/green_button_border" />
+
+
     </RelativeLayout>
 
 

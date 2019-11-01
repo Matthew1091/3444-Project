@@ -9,4 +9,8 @@
     <string name="config2">Song:</string>
     <string name="config3">Phillips Hue Bulb:</string>
     <string name="config4">Color Theme:</string>
+    <string name="img">img</string>
+    <string name="SongActivityMainText">Select a Song:</string>
+    <string name="SongActivityButtonText">Upload</string>
+    <string name="click_here_to_select_a_song">click here to select a song</string>
 </resources>
