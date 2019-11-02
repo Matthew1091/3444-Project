@@ -13,6 +13,7 @@ import java.util.List;
 public class ConnectBulbActivity extends AppCompatActivity {
 
     private Button connectBulbbtn;
+    private Button findBulbbtn;
     private ProjectSettings projset;
     private ArrayList<Bulb> bulbs;
 
@@ -29,11 +30,17 @@ public class ConnectBulbActivity extends AppCompatActivity {
         projset = new ProjectSettings(bulbs);
 
         initConnectBulbWidgits();
+        initFindBulbWidgits();
         setConnectBulbOnClickListeners();
+        setFindBulbOnClickListeners();
     }
 
     private void initConnectBulbWidgits(){
         connectBulbbtn = (Button) findViewById((R.id.connectBtn));
+    }
+
+    private void initFindBulbWidgits(){
+        findBulbbtn = findViewById((R.id.connectScannerBtn));
     }
 
     private void setConnectBulbOnClickListeners(){
@@ -47,7 +54,19 @@ public class ConnectBulbActivity extends AppCompatActivity {
        });
     }
 
+    private void setFindBulbOnClickListeners(){
+        findBulbbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent FindIntent = new Intent(ConnectBulbActivity.this, PHHomeActivity.class);
+                startActivity(FindIntent);
+            }
+        });
+    }
+
     private void connectBulb(Bulb b){
         bulbs.add(b);
     }
+
+
 }
