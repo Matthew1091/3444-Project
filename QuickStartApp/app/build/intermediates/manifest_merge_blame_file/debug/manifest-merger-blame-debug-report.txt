@@ -1,0 +1,63 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.philips.lighting.quickstart"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+7-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:7:5-47
+8        android:minSdkVersion="8"
+8-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:7:5-47
+9        android:targetSdkVersion="17" />
+9-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:7:15-44
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:9:5-67
+11-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:9:22-64
+12
+13    <application
+13-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:12:5-36:19
+14        android:allowBackup="true"
+14-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:13:9-35
+15        android:debuggable="true"
+16        android:icon="@drawable/ic_launcher"
+16-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:14:9-45
+17        android:label="@string/app_name"
+17-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:15:9-41
+18        android:testOnly="true"
+19        android:theme="@style/AppTheme" >
+19-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:16:9-40
+20        <activity
+20-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:17:9-25:20
+21            android:name="com.philips.lighting.quickstart.PHHomeActivity"
+21-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:18:13-74
+22            android:label="@string/app_name" >
+22-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:19:13-45
+23            <intent-filter>
+23-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:20:13-24:29
+24                <action android:name="android.intent.action.MAIN" />
+24-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:21:17-69
+24-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:21:25-66
+25
+26                <category android:name="android.intent.category.LAUNCHER" />
+26-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:23:17-77
+26-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:23:27-74
+27            </intent-filter>
+28        </activity>
+29        <activity
+29-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:27:6-30:17
+30            android:name="com.philips.lighting.quickstart.MyApplicationActivity"
+30-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:28:11-79
+31            android:label="@string/txt_selectbridges" >
+31-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:29:11-52
+32        </activity>
+33        <activity
+33-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:31:6-34:18
+34            android:name="com.philips.lighting.quickstart.PHPushlinkActivity"
+34-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:32:11-76
+35            android:label="@string/app_name" >
+35-->C:\Users\ME\StudioProjects\QuickStartApp\app\src\main\AndroidManifest.xml:33:11-43
+36        </activity>
+37    </application>
+38
+39</manifest>
