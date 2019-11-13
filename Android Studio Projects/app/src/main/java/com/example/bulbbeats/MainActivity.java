@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
             //Permission not granted. Need to ask for it
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO},1);
         }
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET)!= PackageManager.PERMISSION_GRANTED){
+            //Permission not granted. Need to ask for it
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.INTERNET},1);
+        }
     }
     private void initMainWidgits(){
         newProjectbtn = findViewById((R.id.button));
