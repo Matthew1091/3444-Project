@@ -2,6 +2,7 @@ package com.example.bulbbeats;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,8 +71,15 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         
         // Try to automatically connect to the last known bridge.  For first time use this will be empty so a bridge search is automatically started.
         prefs = HueSharedPreferences.getInstance(getApplicationContext());
-        String lastIpAddress   = prefs.getLastConnectedIPAddress();
-        String lastUsername    = prefs.getUsername();
+
+        //String lastIpAddress   = prefs.getLastConnectedIPAddress();
+        //String lastUsername    = prefs.getUsername();
+
+
+        //By setting these to null we don't use the bridge if we have already connected.
+        // This is only so we can test the initial set up consecutively.
+        String lastIpAddress   = null;
+        String lastUsername    = null;
 
         // Automatically try to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
         if (lastIpAddress !=null && !lastIpAddress.equals("")) {
@@ -134,7 +142,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
             phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration() .getIpAddress(), System.currentTimeMillis());
             prefs.setLastConnectedIPAddress(b.getResourceCache().getBridgeConfiguration().getIpAddress());
             prefs.setUsername(username);
-            PHWizardAlertDialog.getInstance().closeProgressDialog();     
+            PHWizardAlertDialog.getInstance().closeProgressDialog();
             startMainActivity();
         }
 
@@ -143,7 +151,6 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
             Log.w(TAG, "Authentication Required.");
             phHueSDK.startPushlinkAuthentication(accessPoint);
             startActivity(new Intent(PHHomeActivity.this, PHPushlinkActivity.class));
-           
         }
 
         @Override
@@ -273,12 +280,13 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
     }
 
     // Starting the main activity this way, prevents the PushLink Activity being shown when pressing the back button.
-    public void startMainActivity() {   
-        Intent intent = new Intent(getApplicationContext(), ConnectBulbActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    public void startMainActivity() {
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Log.v(TAG, "FINISH");
     }
 }

@@ -4,17 +4,22 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.philips.lighting.hue.sdk.PHHueSDK;
+
 import java.util.List;
 
 public class ProjectSettings implements Parcelable {
     //Currently just contains a song Uri but as we add more settings we expand these functions.
     Uri songUri;
     List<Bulb> bulbs;
+    PHHueSDK phHueSDK;
+    static final int MAX_HUE=65535;
 
     //Constructor.
     public ProjectSettings(Uri songuri, List<Bulb> bs) {
         songUri = songuri;
         bulbs = bs;
+        phHueSDK = null;
     }
 
     public ProjectSettings(List<Bulb> bs) {

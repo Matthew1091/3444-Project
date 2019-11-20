@@ -15,10 +15,13 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.philips.lighting.hue.sdk.PHHueSDK;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -45,6 +48,9 @@ public class LaunchActivity extends AppCompatActivity {
 
         //grabs the project settings passed by the previous activity.
         projSet = getIntent().getParcelableExtra("settings");
+
+        //start the HueSDK. Bridge should already be connected.
+        projSet.phHueSDK = PHHueSDK.create();
 
         //cursor is used to get the name of the song. We should find a way to prevent the
         //length of the song from affecting the scale of the buttons. It currently does that.

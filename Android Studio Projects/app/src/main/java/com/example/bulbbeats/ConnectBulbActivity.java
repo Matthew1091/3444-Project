@@ -1,9 +1,11 @@
 package com.example.bulbbeats;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectBulbActivity extends AppCompatActivity {
+
+    static int BRIDGECONNECTED_RCODE = 50;
 
     private Button connectBulbbtn;
     private Button findBulbbtn;
@@ -59,7 +63,7 @@ public class ConnectBulbActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent FindIntent = new Intent(ConnectBulbActivity.this, PHHomeActivity.class);
-                startActivity(FindIntent);
+                startActivityForResult(FindIntent, BRIDGECONNECTED_RCODE);
             }
         });
     }
@@ -68,5 +72,11 @@ public class ConnectBulbActivity extends AppCompatActivity {
         bulbs.add(b);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == BRIDGECONNECTED_RCODE && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Log.v("LOGV", "onActivityResult: BRIDGECONNECTED");
+        }
+    }
 }
