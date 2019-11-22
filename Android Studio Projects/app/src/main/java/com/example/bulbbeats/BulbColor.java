@@ -2,21 +2,21 @@ package com.example.bulbbeats;
 
 public class BulbColor {
     private String name;
-    private String one_hue;
+    private int one_hue;
     private String one_on;
-    private String one_bri;
-    private String one_sat;
-    private String two_hue;
+    private int one_bri;
+    private int one_sat;
+    private int two_hue;
     private String two_on;
-    private String two_bri;
-    private String two_sat;
-    private String three_hue;
+    private int two_bri;
+    private int two_sat;
+    private int three_hue;
     private String three_on;
-    private String three_bri;
-    private String three_sat;
+    private int three_bri;
+    private int three_sat;
 
 
-    public BulbColor(String name, String one_hue, String one_on, String one_bri, String one_sat, String two_hue, String two_on, String two_bri, String two_sat, String three_hue, String three_on, String three_bri, String three_sat) {
+    public BulbColor(String name, int one_hue, String one_on, int one_bri, int  one_sat, int  two_hue, String two_on, int  two_bri, int  two_sat, int  three_hue, String three_on, int  three_bri, int three_sat) {
         this.name = name;
         this.one_hue = one_hue;
         this.one_on = one_on;
@@ -29,30 +29,6 @@ public class BulbColor {
         this.three_hue = three_hue;
         this.three_on = three_on;
         this.three_bri = three_bri;
-        this.three_sat = three_sat;
-    }
-
-    public String getOne_sat() {
-        return one_sat;
-    }
-
-    public void setOne_sat(String one_sat) {
-        this.one_sat = one_sat;
-    }
-
-    public String getTwo_sat() {
-        return two_sat;
-    }
-
-    public void setTwo_sat(String two_sat) {
-        this.two_sat = two_sat;
-    }
-
-    public String getThree_sat() {
-        return three_sat;
-    }
-
-    public void setThree_sat(String three_sat) {
         this.three_sat = three_sat;
     }
 
@@ -64,11 +40,11 @@ public class BulbColor {
         this.name = name;
     }
 
-    public String getOne_hue() {
+    public int getOne_hue() {
         return one_hue;
     }
 
-    public void setOne_hue(String one_hue) {
+    public void setOne_hue(int one_hue) {
         this.one_hue = one_hue;
     }
 
@@ -80,19 +56,27 @@ public class BulbColor {
         this.one_on = one_on;
     }
 
-    public String getOne_bri() {
+    public int getOne_bri() {
         return one_bri;
     }
 
-    public void setOne_bri(String one_bri) {
+    public void setOne_bri(int one_bri) {
         this.one_bri = one_bri;
     }
 
-    public String getTwo_hue() {
+    public int getOne_sat() {
+        return one_sat;
+    }
+
+    public void setOne_sat(int one_sat) {
+        this.one_sat = one_sat;
+    }
+
+    public int getTwo_hue() {
         return two_hue;
     }
 
-    public void setTwo_hue(String two_hue) {
+    public void setTwo_hue(int two_hue) {
         this.two_hue = two_hue;
     }
 
@@ -104,19 +88,27 @@ public class BulbColor {
         this.two_on = two_on;
     }
 
-    public String getTwo_bri() {
+    public int getTwo_bri() {
         return two_bri;
     }
 
-    public void setTwo_bri(String two_bri) {
+    public void setTwo_bri(int two_bri) {
         this.two_bri = two_bri;
     }
 
-    public String getThree_hue() {
+    public int getTwo_sat() {
+        return two_sat;
+    }
+
+    public void setTwo_sat(int two_sat) {
+        this.two_sat = two_sat;
+    }
+
+    public int getThree_hue() {
         return three_hue;
     }
 
-    public void setThree_hue(String three_hue) {
+    public void setThree_hue(int three_hue) {
         this.three_hue = three_hue;
     }
 
@@ -128,14 +120,21 @@ public class BulbColor {
         this.three_on = three_on;
     }
 
-    public String getThree_bri() {
+    public int getThree_bri() {
         return three_bri;
     }
 
-    public void setThree_bri(String three_bri) {
+    public void setThree_bri(int three_bri) {
         this.three_bri = three_bri;
     }
 
+    public int getThree_sat() {
+        return three_sat;
+    }
+
+    public void setThree_sat(int three_sat) {
+        this.three_sat = three_sat;
+    }
 
     @Override
     public String toString() {
