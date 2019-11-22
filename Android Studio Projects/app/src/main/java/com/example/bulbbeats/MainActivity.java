@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             public void onClick(View v) {  //will start from mainactivity to connectbulbactivity class
+                phHueSDK = PHHueSDK.create();
                 PHBridge bridge = phHueSDK.getSelectedBridge();
 
                 if(bridge != null) {
