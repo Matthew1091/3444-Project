@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.philips.lighting.hue.sdk.PHHueSDK;
 
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity implements fftListener{
 
     private static Context context;
     private ProjectSettings projSet;
@@ -69,13 +69,9 @@ public class LaunchActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.stopButton);
         setSongOnClickListeners();
         //Control back button press
-
     }
 
-    /*
-        play creates a media player and an audio processor. Also changes the icon image.
-     */
-
+    //play creates a media player and an audio processor. Also changes the icon image.
     public  void play(View v)
     {
         if(mPlayer == null) {
@@ -90,6 +86,7 @@ public class LaunchActivity extends AppCompatActivity {
         }
         if(audProc==null) {
             audProc = new AudioProcessor(mPlayer, context);
+            audProc.setfftListener(this);
         }
         start();
 
@@ -127,9 +124,7 @@ public class LaunchActivity extends AppCompatActivity {
         audProc.enable(); //actually enables the visualizer to start capturing data.
     }
 
-    /*
-    stopPlayer calls release but also frees system resources.
-     */
+    //stopPlayer calls release but also frees system resources.
     public  void stopPlayer()
     {
         if(mPlayer != null) {
@@ -175,6 +170,7 @@ public class LaunchActivity extends AppCompatActivity {
         }
 
     }
+
     //Overrides back button press to send it to the main page
     @Override
     public void onBackPressed(){
@@ -182,6 +178,7 @@ public class LaunchActivity extends AppCompatActivity {
         Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
         startActivity(intent); //will trigger the intent
     }
+
     private void setSongOnClickListeners(){
         playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -196,11 +193,13 @@ public class LaunchActivity extends AppCompatActivity {
             }
         });
     }
+
     private void stopHandler(View v){
         changePausePlayButton(1);
         stop();
 
     }
+
     private void playPauseHandler(View v){
         if(audProc == null || !mPlayer.isPlaying()) {
             play(v);
@@ -213,4 +212,9 @@ public class LaunchActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onUpdate(float[] FFT) {
+        //send info to bridge or messenger.
+
+    }
 }
