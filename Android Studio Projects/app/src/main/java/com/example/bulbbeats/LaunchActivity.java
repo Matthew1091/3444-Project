@@ -21,7 +21,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.lighting.hue.listener.PHLightListener;
 import com.philips.lighting.hue.sdk.PHHueSDK;
+import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHBridgeResource;
+import com.philips.lighting.model.PHHueError;
+import com.philips.lighting.model.PHLight;
+import com.philips.lighting.model.PHLightState;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class LaunchActivity extends AppCompatActivity implements fftListener{
 
@@ -33,6 +43,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
     private MediaPlayer mPlayer;
     private TextView songTitle;
     private String temp;
+    private static final int MAX_HUE=65535;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,19 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
         //start the HueSDK. Bridge should already be connected.
         projSet.phHueSDK = PHHueSDK.create();
+        PHBridge bridge = projSet.phHueSDK.getSelectedBridge();
+
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        Random rand = new Random();
+
+        for (PHLight light : allLights) {
+            PHLightState lightState = new PHLightState();
+            lightState.setHue(rand.nextInt(MAX_HUE));
+            // To validate your lightstate is valid (before sending to the bridge) you can use:
+            // String validState = lightState.validateState();
+            bridge.updateLightState(light, lightState, listener);
+            //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.
+        }
 
         //cursor is used to get the name of the song. We should find a way to prevent the
         //length of the song from affecting the scale of the buttons. It currently does that.
@@ -70,6 +94,29 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
         setSongOnClickListeners();
         //Control back button press
     }
+    PHLightListener listener = new PHLightListener() {
+
+        @Override
+        public void onSuccess() {
+        }
+
+        @Override
+        public void onStateUpdate(Map<String, String> arg0, List<PHHueError> arg1) {
+          //  Log.w(TAG, "Light has updated");
+        }
+
+        @Override
+        public void onError(int arg0, String arg1) {}
+
+        @Override
+        public void onReceivingLightDetails(PHLight arg0) {}
+
+        @Override
+        public void onReceivingLights(List<PHBridgeResource> arg0) {}
+
+        @Override
+        public void onSearchComplete() {}
+    };
 
     //play creates a media player and an audio processor. Also changes the icon image.
     public  void play(View v)
