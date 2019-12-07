@@ -62,20 +62,23 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
         //start the HueSDK. Bridge should already be connected.
         projSet.phHueSDK = PHHueSDK.create();
-        PHBridge bridge = projSet.phHueSDK.getSelectedBridge();
 
-        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        Random rand = new Random();
 
-        for (PHLight light : allLights) {
-            PHLightState lightState = new PHLightState();
-            lightState.setHue(rand.nextInt(MAX_HUE));
-            // To validate your lightstate is valid (before sending to the bridge) you can use:
-            // String validState = lightState.validateState();
-            bridge.updateLightState(light, lightState, listener);
-            //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.
+            PHBridge bridge = projSet.phHueSDK.getSelectedBridge();
+        if((bridge != null)  ) {
+            List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+            Random rand = new Random();
+
+            for (PHLight light : allLights) {
+                PHLightState lightState = new PHLightState();
+                lightState.setHue(rand.nextInt(MAX_HUE));
+                // To validate your lightstate is valid (before sending to the bridge) you can use:
+                // String validState = lightState.validateState();
+                bridge.updateLightState(light, lightState, listener);
+                //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.
+            }
+
         }
-
         //cursor is used to get the name of the song. We should find a way to prevent the
         //length of the song from affecting the scale of the buttons. It currently does that.
         Cursor returnCursor = getContentResolver().query(projSet.songUri, null, null, null, null);

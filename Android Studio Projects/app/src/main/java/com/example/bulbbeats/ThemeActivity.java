@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,7 +39,7 @@ public class ThemeActivity extends AppCompatActivity {
 
         // Initializing a String Array
         String[] themes = new String[]{
-                "Select",
+                "",
                 "UNT Theme",
                 "Halloween Theme",
                 "Christmas Theme"
@@ -64,12 +65,12 @@ public class ThemeActivity extends AppCompatActivity {
                 View view = super.getDropDownView(pposition, convertView, parent);
                 TextView tv = (TextView) view;
                 if(pposition == 0){
-                    tv.setBackgroundColor(Color.rgb(166,184,179));
+                    tv.setBackgroundColor(Color.rgb(139,153,155));
                     tv.setTextColor(Color.WHITE);
                 }
                 else {
                     tv.setBackgroundColor(Color.WHITE);
-                    tv.setTextColor(Color.rgb(166,184,178));
+                    tv.setTextColor(Color.rgb(139,153,155));
                 }
                 return view;
             }
@@ -164,6 +165,7 @@ public class ThemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {  //will start from themectivity to launchactivity class
 
+                Log.v("LOGV", "onActivityResult: trying to go to launch");
                 Intent sintent = new Intent(ThemeActivity.this, LaunchActivity.class);
                 sintent.putExtra("settings", projset);
                 startActivity(sintent); //will trigger the intent
