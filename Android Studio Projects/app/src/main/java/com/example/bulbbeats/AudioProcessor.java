@@ -148,10 +148,10 @@ public class AudioProcessor{
         //roundtrip time
         date2 = new Date();
         long capture = date2.getTime() - date1.getTime();
-        Log.v("LaunchActivity.onUpdate", String.format("%6.1fms: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
-                (float)capture,Keys[6], Keys[28], Keys[36], Keys[40],Keys[59], Keys[65], Keys[68], Keys[70],Keys[72], Keys[74], Keys[76], Keys[78],Keys[80], Keys[82], Keys[85], Keys[87]));
+        //Log.v("LaunchActivity.onUpdate", String.format("%6.1fms: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
+         //       (float)capture,Keys[6], Keys[28], Keys[36], Keys[40],Keys[59], Keys[65], Keys[68], Keys[70],Keys[72], Keys[74], Keys[76], Keys[78],Keys[80], Keys[82], Keys[85], Keys[87]));
         date1 = new Date();
-        message.changeLights(FFT);
+        message.changeLights(Keys);
     }
 
     public void release()
