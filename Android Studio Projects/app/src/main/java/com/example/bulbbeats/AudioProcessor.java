@@ -13,13 +13,14 @@ public class AudioProcessor{
     private static int numBins = 16;
     private int PERMISSION_CODE = 1;
     private fftListener listener;
-
+    Messenger message;
     Date date1 = new Date();
     Date date2 = null;
 
     //constructor
-    public AudioProcessor(MediaPlayer mPlayer, Context context)
+    public AudioProcessor(MediaPlayer mPlayer, Context context, Messenger messanger)
     {
+        message = messanger;
         mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
@@ -93,6 +94,7 @@ public class AudioProcessor{
         Log.v("LaunchActivity.onUpdate", String.format("%6.1f: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
                 (float)capture,FFT[0], FFT[1], FFT[2], FFT[3],FFT[4], FFT[5], FFT[6], FFT[7],FFT[8], FFT[9], FFT[10], FFT[11],FFT[12], FFT[13], FFT[14], FFT[15]));
         date1 = new Date();
+        message.changeLights(FFT);
     }
 
     public void release()
