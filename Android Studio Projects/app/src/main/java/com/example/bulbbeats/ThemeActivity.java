@@ -42,7 +42,8 @@ public class ThemeActivity extends AppCompatActivity {
                 "",
                 "UNT Theme",
                 "Halloween Theme",
-                "Christmas Theme"
+                "Christmas Theme",
+                "Rainbow Theme"
         };
 
         final List<String> themeList = new ArrayList<>(Arrays.asList(themes));
@@ -88,6 +89,8 @@ public class ThemeActivity extends AppCompatActivity {
                     setHalloweenTheme();
                 }else if(selectedItemText == "Christmas Theme"){
                     setChristmasTheme();
+                }else if(selectedItemText == "Rainbow Theme"){
+                    setRainbowTheme();
                 }
             }
 
@@ -130,6 +133,24 @@ public class ThemeActivity extends AppCompatActivity {
             if(col.getName() == "Christmas" ){
                 // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
                // Toast.makeText(getApplicationContext(), "christmas found", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
+    private void setRainbowTheme(){
+
+        ArrayList<BulbColor> themecolors = util.getAllColors();
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("Rainbow");
+
+        // Notify the selected item text
+        for(BulbColor col: themecolors){
+
+            if(col.getName() == "Rainbow" ){
+                // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
+                //Toast.makeText(getApplicationContext(), "halloweed found", Toast.LENGTH_LONG).show();
             }
 
         }

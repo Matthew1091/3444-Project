@@ -72,6 +72,21 @@ public class ThemeUtil {
         three_sat=100;
         allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
 
+        name = "Rainbow";
+        one_hue = 6006; //orange
+        one_on = "true";
+        one_bri= 254;
+        one_sat =100;
+        two_hue= 8008; //yellow
+        two_on= "false";
+        two_bri= 254;
+        two_sat=100;
+        three_hue= 4444;//another orange
+        three_on= "false";
+        three_bri= 254;
+        three_sat=100;
+        allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
+
 
         name = "Christmas";
         one_hue = 0; //red
