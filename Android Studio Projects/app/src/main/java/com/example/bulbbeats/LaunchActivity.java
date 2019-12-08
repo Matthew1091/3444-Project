@@ -44,6 +44,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
     private TextView songTitle;
     private String temp;
     private static final int MAX_HUE=65535;
+    private Messenger message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
         //start the HueSDK. Bridge should already be connected.
         projSet.phHueSDK = PHHueSDK.create();
-
+        message = new Messenger(projSet.phHueSDK);
 
             PHBridge bridge = projSet.phHueSDK.getSelectedBridge();
         if((bridge != null)  ) {
@@ -105,7 +106,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
         @Override
         public void onStateUpdate(Map<String, String> arg0, List<PHHueError> arg1) {
-          //  Log.w(TAG, "Light has updated");
+            //  Log.w(TAG, "Light has updated");
         }
 
         @Override
@@ -135,7 +136,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
             });
         }
         if(audProc==null) {
-            audProc = new AudioProcessor(mPlayer, context);
+            audProc = new AudioProcessor(mPlayer, context, message);
             audProc.setfftListener(this);
         }
         start();
