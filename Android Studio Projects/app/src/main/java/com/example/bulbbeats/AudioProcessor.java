@@ -5,12 +5,16 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class AudioProcessor{
-    private float FFT[];
+    private float[] FFT;
+    private float[] Keys;
     private Visualizer mVisualizer;
     private static int numBins = 16;
+    private static int[] KeyToFreq;
+    private static int[] FreqToKeys;
     private int PERMISSION_CODE = 1;
     private fftListener listener;
 
@@ -23,6 +27,10 @@ public class AudioProcessor{
         mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+        Keys = new float[88];
+        Arrays.fill(Keys, 0);
+        KeyToFreq = new int[]{7,14,19,23,26,29,31,33,35,37,38};
+        FreqToKeys = new int[]{28,30,32,34,36,38,40,43,46,49,52,55,58,62,65,69,74,78,83,88,93,99,105,111,118,125,133,141,149,159,168,178,189,200,212};
 
         Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
             @Override
@@ -71,7 +79,7 @@ public class AudioProcessor{
             FFT[i-1] = avg;
         }*/
 
-        int numBuckets = fft.length/2;
+        /*int numBuckets = fft.length/2;
         int binSize = numBuckets / numBins;
 
         for(int j = 0; j < numBins; j++){
@@ -84,14 +92,63 @@ public class AudioProcessor{
             }
             FFT[j] = (float)avg / binSize;
             FFT[j] = (float)Math.pow(FFT[j],4)/64;
+        }*/
+
+        int cnt = 0;
+
+        //  There has to be better way of doing this using a map or dictionary.
+        for(int i = 0; i <= 212; i++)
+        {
+            byte rfk = fft[i * 2 + 4];
+            byte ifk = fft[i * 2 + 5];
+
+            if(i < 11)
+                Keys[KeyToFreq[i]-1] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            if(i >= 11 && i < 20)
+                Keys[i+28] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            if(i>=21 && i<24)
+                Keys[i+27] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            if(i==25 || i==26)
+                Keys[i+26] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            //Log.v("LaunchActivity.onUpdate", String.format("%d:",Arrays.binarySearch(FreqToKeys, i)));
+            if(Arrays.binarySearch(FreqToKeys, i) >= 0) {
+                Keys[53 + cnt] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+                cnt++;
+            }
+
         }
 
+        /*for(int i = 28; i < 41; i+=2)
+        {
+
+            byte rfk = fft[i * 2 + 4];
+            byte ifk = fft[i * 2 + 5];
+            Keys[53+cnt] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            cnt++;
+        }
+        cnt = 0;
+        for(int i = 43; i < 59; i+=3)
+        {
+            byte rfk = fft[i * 2 + 4];
+            byte ifk = fft[i * 2 + 5];
+            Keys[60+cnt] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            cnt++;
+        }
+        for(int i = 62; i < 79; i++)
+        {
+            byte rfk = fft[i * 2 + 4];
+            byte ifk = fft[i * 2 + 5];
+            if(i==62)
+                Keys[66] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
+            if(i==65)
+                Keys[67]
+        }*/
 
         //roundtrip time
         date2 = new Date();
         long capture = date2.getTime() - date1.getTime();
-        Log.v("LaunchActivity.onUpdate", String.format("%6.1f: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
-                (float)capture,FFT[0], FFT[1], FFT[2], FFT[3],FFT[4], FFT[5], FFT[6], FFT[7],FFT[8], FFT[9], FFT[10], FFT[11],FFT[12], FFT[13], FFT[14], FFT[15]));
+        Log.v("LaunchActivity.onUpdate", String.format("%6.1fms: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
+                (float)capture,Keys[6], Keys[28], Keys[36], Keys[40],Keys[59], Keys[65], Keys[68], Keys[70],Keys[72], Keys[74], Keys[76], Keys[78],Keys[80], Keys[82], Keys[85], Keys[87]));
         date1 = new Date();
     }
 
