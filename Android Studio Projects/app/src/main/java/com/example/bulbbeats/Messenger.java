@@ -17,7 +17,7 @@ public class Messenger {
     float maxWave=-1;
     int minWave=-1;
     PHHueSDK hue;
-    private static final int MAX_HUE=50000;
+    private static final int MAX_HUE=65535;
     float[] fft;
     public Messenger(PHHueSDK hue){
         this.hue = hue;
@@ -60,7 +60,7 @@ public class Messenger {
         if(localMaxWave > maxWave){
             maxWave = localMaxWave;
         }
-        float percentage = (float)(localMaxBin / (maxBin-minBin + 1));
+        float percentage = (float)((float)localMaxBin / (float)(maxBin-minBin + 1));
         int newHue = (int)(percentage * MAX_HUE);
         PHBridge bridge = hue.getSelectedBridge();
         if((bridge != null)  ) {
